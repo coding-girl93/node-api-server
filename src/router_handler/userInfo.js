@@ -74,3 +74,21 @@ exports.updateUserPassword = (req, res)=>{
    
   })
 }
+
+// 更新用户头像
+exports.updateUserAvatar= (req,res)=>{
+  const sql = `update ev_users set user_pic=? where id =?`
+  db.query(sql,[req.body.avatar, req.auth.id],(err,result)=>{
+    if(err){
+      return res.cc(err)
+    }
+    if(result.affectedRows!== 1){
+      return res.cc('更新头像失败')
+    }
+    res.send({
+      status: 0,
+      message:'更新头像成功'
+    })
+  })
+
+}
