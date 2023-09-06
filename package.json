@@ -1,0 +1,30 @@
+{
+  "name": "node-api-server",
+  "version": "1.0.0",
+  "description": "利用node搭建接口服务器",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coding-girl93/node-api-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coding-girl93/node-api-server/issues"
+  },
+  "homepage": "https://github.com/coding-girl93/node-api-server#readme",
+  "dependencies": {
+    "@escook/express-joi": "^1.1.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-jwt": "^8.4.1",
+    "joi": "^17.10.1",
+    "jsonwebtoken": "^9.0.2",
+    "mysql": "^2.18.1"
+  }
+}
