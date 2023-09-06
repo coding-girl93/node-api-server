@@ -2,7 +2,7 @@ const express = require('express');
 const app= express();
 const cors = require('cors');
 const userRouter = require('./router/user');
-const articleCateRouter = require('./router/article');
+const articleCateRouter = require('./router/article-cate');
 const userInfoRouter = require('./router/userInfo');
 const joi = require('joi'); // 中间件
 const {expressjwt:jwt} = require('express-jwt')
@@ -35,6 +35,7 @@ app.use(jwt({
 app.use('/api',userRouter);
 app.use('/my/article',articleCateRouter);
 app.use('/my',userInfoRouter);
+
 // 定义错误级别中间件
 app.use((err,req,res,next)=>{
   // 验证失败
