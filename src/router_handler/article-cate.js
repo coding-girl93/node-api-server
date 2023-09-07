@@ -71,3 +71,58 @@ exports.deleteArticleCate = (req,res)=>{
     })
   })
 }
+// 根据ID获取文章分类
+exports.getArticleCateById = (req,res)=>{
+  const sql = `select * from ev_article_cate  where id = ?`
+  db.query(sql,req.params.id,(err,result)=>{
+    if(err){
+      return  res.cc(err)
+    }
+    if(result.length!==1){
+      return  res.cc('获取文章分类失败')
+    }
+    res.send({
+      status:0,
+      message:'获取文章分类成功',
+      data:result[0]
+    })
+  })
+}
+// 跟新分类
+exports.updateArticleCate = (req, res) => {
+  // 查询是否已经插入过分类
+  const sql = 'SELECT * FROM ev_article_cate where id<>? and (name=? or alias=?) '
+  db.query(sql, [req.body.name,req.body.alias,req.body.id], (err, result) => {
+    if(err){
+      return  res.cc(err)
+    }
+    console.error(req.body,result)
+    if(result.length===2){
+      return  res.cc('该分类名称和分类别名已存在')
+    }
+    if(result.length===1 && result[0].name===req.body.name && result[0].alias===req.body.alias){
+      return  res.cc('该分类名称和分类别名已存在')
+    }
+    if(result.length===1 && result[0].name===req.body.name ){
+      return  res.cc('该分类名称已存在')
+    }
+    if(result.length===1 && result[0].alias===req.body.alias){
+      return  res.cc('分类别名已存在')
+    }
+    const addSql = 'update ev_article_cate set ? where id =?'
+    db.query(addSql, [req.body,req.body.id], (err, result) => {
+      if(err){
+        return  res.cc(err)
+      }
+      if(result.affectedRows!==1){
+        return  res.cc('更新文章分类失败')
+      }
+      res.send({
+        status:0,
+        message:'更新文章分类成功',
+      })
+    })
+
+  })
+ 
+}
