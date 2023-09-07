@@ -1,12 +1,14 @@
 const express = require('express');
 const app= express();
 const cors = require('cors');
+const joi = require('joi'); // 中间件
+const {expressjwt:jwt} = require('express-jwt')
+
 const userRouter = require('./router/user');
 const articleCateRouter = require('./router/article-cate');
 const userInfoRouter = require('./router/userInfo');
 const articlesRouter = require('./router/articles');
-const joi = require('joi'); // 中间件
-const {expressjwt:jwt} = require('express-jwt')
+const config = require('./config');
 
 // 配置跨域访问中间件
 app.use(cors());
@@ -16,17 +18,15 @@ app.use((req,res,next)=>{
   res.cc = function(err,status=1){
     res.send({
       status,
-      massage:err instanceof Error?err.message:err
+      massage:err instanceof Error ? err.message:err
     })
   }
   next()
 })
 
-
 // 解析表单数据中间件，只能解析application/x-www-form-urlencoded
 app.use(express.urlencoded({extended:false}));
 // 路由之前配置解析token的中间件
-const config = require('./config');
 app.use(jwt({
   secret: config.jwtSecretKey,
   algorithms:['HS256']
